@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>SAFARI Web & App Builder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ================================================================
+           SAFARI WEB & APP BUILDER – Complete Styling
+           ================================================================ */
+
+        :root {
+            --bg: #0b0e1a;
+            --bg-card: rgba(15, 20, 40, 0.75);
+            --bg-nav: rgba(10, 14, 30, 0.85);
+            --text: #e8edf5;
+            --text-secondary: #a0b4d9;
+            --text-muted: #6a7fa0;
+            --accent-start: #6c5ce7;
+            --accent-end: #a29bfe;
+            --accent-glow: rgba(108, 92, 231, 0.4);
+            --gradient: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.8);
+            --radius: 18px;
+            --radius-sm: 12px;
+            --radius-lg: 28px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            touch-action: manipulation;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+        }
+        input,
+        textarea,
+        select {
+            font-family: inherit;
+            background: none;
+            border: none;
+            outline: none;
+            color: inherit;
+            font-size: 14px;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-start);
+            border-radius: 10px;
+        }
+
+        /* ---- Particles ---- */
+        #particlesCanvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 20% 30%, #1a1040, #080c18);
+        }
+        #particlesCanvas::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 80%, rgba(108, 92, 231, 0.12), transparent 60%);
+            pointer-events: none;
+        }
+
+        /* ---- App ---- */
+        #app {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            flex-direction: column;
+        }
+
+        /* ---- Header ---- */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-nav);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header .brand {
+            font-size: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header .brand span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .brand .sub {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-muted);
+            -webkit-text-fill-color: var(--text-muted);
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-right .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--text-secondary);
+            transition: all var(--transition);
+            position: relative;
+        }
+        .header-right .icon-btn:hover {
+            background: var(--accent-start);
+            color: #fff;
+            border-color: var(--accent-start);
+        }
+        .header-right .user-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            border: 1px solid var(--border);
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text-secondary);
+        }
+
+        /* ---- Main Layout ---- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 16px 20px;
+            flex: 1;
+            max-height: calc(100vh - 130px);
+            min-height: 500px;
+        }
+
+        /* ---- Left Panel: Builder ---- */
+        .builder-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .builder-panel .panel-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .builder-panel .panel-title i {
+            color: var(--accent-end);
+        }
+        .builder-panel textarea {
+            flex: 1;
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            font-size: 14px;
+            resize: none;
+            min-height: 150px;
+            transition: all var(--transition);
+            line-height: 1.6;
+        }
+        .builder-panel textarea:focus {
+            border-color: var(--accent-start);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .builder-panel textarea::placeholder {
+            color: var(--text-muted);
+        }
+        .builder-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            padding: 10px 24px;
+            background: var(--gradient);
+            color: #fff;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+        .btn-secondary {
+            padding: 10px 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all var(--transition);
+            cursor: pointer;
+            touch-action: manipulation;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-secondary:hover {
+            background: var(--accent-start);
+            color: #fff;
+            border-color: var(--accent-start);
+        }
+        .btn-success {
+            padding: 10px 24px;
+            background: #22c55e;
+            color: #fff;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .btn-success:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+        }
+
+        /* ---- Right Panel: Output ---- */
+        .output-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .output-panel .panel-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .output-panel .panel-title .title-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .output-panel .panel-title .title-left i {
+            color: var(--accent-end);
+        }
+        .output-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .output-tabs .tab-btn {
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all var(--transition);
+            cursor: pointer;
+            touch-action: manipulation;
+            background: transparent;
+            border: none;
+        }
+        .output-tabs .tab-btn:hover {
+            color: var(--text);
+        }
+        .output-tabs .tab-btn.active {
+            background: var(--gradient);
+            color: #fff;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+        .output-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 4px;
+        }
+        .output-content .file-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .output-content .file-item .file-name {
+            font-family: monospace;
+            font-size: 13px;
+            color: var(--accent-end);
+            font-weight: 600;
+        }
+        .output-content .file-item .file-size {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .output-content .file-item .file-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .output-content .file-item .file-actions button {
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            transition: all var(--transition);
+            touch-action: manipulation;
+            cursor: pointer;
+        }
+        .output-content .file-item .file-actions button:hover {
+            background: var(--accent-start);
+            color: #fff;
+            border-color: var(--accent-start);
+        }
+        .code-preview {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            color: #d4d4d4;
+        }
+        .code-preview .hljs-keyword {
+            color: #c586c0;
+        }
+        .code-preview .hljs-string {
+            color: #ce9178;
+        }
+        .code-preview .hljs-comment {
+            color: #6a9955;
+        }
+        .code-preview .hljs-function {
+            color: #dcdcaa;
+        }
+        .code-preview .hljs-title {
+            color: #4ec9b0;
+        }
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--accent-start);
+            opacity: 0.3;
+        }
+        .empty-state p {
+            font-size: 14px;
+            max-width: 300px;
+        }
+
+        /* ---- Chat / AI Assistant (floating) ---- */
+        .chat-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--gradient);
+            color: #fff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 24px var(--accent-glow);
+            transition: all var(--transition);
+            z-index: 50;
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 32px var(--accent-glow);
+        }
+        .chat-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 380px;
+            max-width: 90vw;
+            max-height: 500px;
+            background: var(--bg-card);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 51;
+            animation: slideUp 0.3s ease;
+        }
+        .chat-panel.open {
+            display: flex;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .chat-panel .chat-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-nav);
+        }
+        .chat-panel .chat-header h4 {
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chat-panel .chat-header h4 i {
+            color: var(--accent-end);
+        }
+        .chat-panel .chat-header .close-chat {
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all var(--transition);
+            touch-action: manipulation;
+        }
+        .chat-panel .chat-header .close-chat:hover {
+            color: var(--text);
+            transform: rotate(90deg);
+        }
+        .chat-panel .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 300px;
+        }
+        .chat-panel .chat-messages .msg {
+            max-width: 88%;
+            padding: 8px 14px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            line-height: 1.5;
+            animation: fadeUp 0.3s ease;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .chat-panel .chat-messages .msg.user {
+            align-self: flex-end;
+            background: var(--gradient);
+            color: #fff;
+        }
+        .chat-panel .chat-messages .msg.assistant {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+        }
+        .chat-panel .chat-messages .msg .msg-time {
+            font-size: 9px;
+            opacity: 0.5;
+            text-align: right;
+            margin-top: 4px;
+        }
+        .chat-panel .chat-input-area {
+            display: flex;
+            gap: 8px;
+            padding: 10px 14px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-nav);
+        }
+        .chat-panel .chat-input-area input {
+            flex: 1;
+            padding: 8px 14px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            font-size: 13px;
+            transition: all var(--transition);
+        }
+        .chat-panel .chat-input-area input:focus {
+            border-color: var(--accent-start);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .chat-panel .chat-input-area button {
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: var(--gradient);
+            color: #fff;
+            font-size: 14px;
+            transition: all var(--transition);
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .chat-panel .chat-input-area button:hover {
+            transform: scale(1.05);
+        }
+
+        /* ---- Footer ---- */
+        .app-footer {
+            text-align: center;
+            padding: 10px 12px 6px;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            color: var(--text-secondary);
+            font-size: 11px;
+            background: var(--bg-nav);
+            backdrop-filter: blur(12px);
+        }
+        .app-footer a {
+            color: var(--accent-end);
+            font-weight: 600;
+        }
+        .app-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---- Toast ---- */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            padding: 8px 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            z-index: 9999;
+            font-weight: 500;
+            font-size: 13px;
+            animation: slideUpToast 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+            color: var(--text);
+        }
+        @keyframes slideUpToast {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* ---- Spinner ---- */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent-start);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 992px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                max-height: none;
+                min-height: auto;
+            }
+            .builder-panel textarea {
+                min-height: 120px;
+            }
+            .chat-panel {
+                width: 90vw;
+                right: 5vw;
+                bottom: 80px;
+                max-height: 60vh;
+            }
+        }
+        @media (max-width: 600px) {
+            .header .brand {
+                font-size: 16px;
+            }
+            .header .brand .sub {
+                font-size: 10px;
+            }
+            .header-right .icon-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 13px;
+            }
+            .header-right .user-badge {
+                font-size: 10px;
+                max-width: 60px;
+                padding: 2px 10px;
+            }
+            .main-layout {
+                padding: 10px 12px;
+                gap: 12px;
+            }
+            .builder-panel,
+            .output-panel {
+                padding: 14px;
+            }
+            .builder-actions {
+                flex-direction: column;
+            }
+            .builder-actions .btn-primary,
+            .builder-actions .btn-secondary,
+            .builder-actions .btn-success {
+                width: 100%;
+                justify-content: center;
+            }
+            .output-tabs .tab-btn {
+                font-size: 11px;
+                padding: 3px 12px;
+            }
+            .chat-panel {
+                width: 95vw;
+                right: 2.5vw;
+                bottom: 70px;
+                max-height: 50vh;
+            }
+            .chat-toggle {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PARTICLES ===== -->
+    <canvas id="particlesCanvas"></canvas>
+
+    <!-- ===== MAIN APP ===== -->
+    <div id="app">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="brand">
+                🛠️ SAFARI <span>Builder</span>
+                <span class="sub">Web &amp; App</span>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn" id="docsBtn" title="Documentation"><i class="fas fa-book"></i></button>
+                <button class="icon-btn" id="exportBtn" title="Export Project"><i class="fas fa-download"></i></button>
+                <span class="user-badge" id="userBadge">Builder</span>
+            </div>
+        </header>
+
+        <!-- ===== MAIN LAYOUT ===== -->
+        <div class="main-layout">
+
+            <!-- ===== LEFT: BUILDER ===== -->
+            <div class="builder-panel">
+                <div class="panel-title">
+                    <i class="fas fa-wand-magic-sparkles"></i> Describe Your Project
+                    <span style="font-size:12px;font-weight:400;color:var(--text-muted);margin-left:auto;">AI will generate files</span>
+                </div>
+                <textarea id="projectDescription" placeholder="Example: Create a simple todo list app with HTML, CSS, and JavaScript. Include add, delete, and mark complete features. Make it look modern with a dark theme."></textarea>
+                <div class="builder-actions">
+                    <button class="btn-primary" id="generateBtn"><i class="fas fa-wand-magic-sparkles"></i> Generate Project</button>
+                    <button class="btn-secondary" id="clearBtn"><i class="fas fa-trash"></i> Clear</button>
+                    <button class="btn-success" id="apkBtn"><i class="fas fa-mobile-screen-button"></i> Build APK Guide</button>
+                </div>
+                <div style="margin-top:12px;font-size:12px;color:var(--text-muted);display:flex;gap:16px;flex-wrap:wrap;">
+                    <span><i class="fas fa-check-circle" style="color:#22c55e;"></i> HTML</span>
+                    <span><i class="fas fa-check-circle" style="color:#22c55e;"></i> CSS</span>
+                    <span><i class="fas fa-check-circle" style="color:#22c55e;"></i> JavaScript</span>
+                    <span><i class="fas fa-check-circle" style="color:#22c55e;"></i> React</span>
+                    <span><i class="fas fa-check-circle" style="color:#22c55e;"></i> PWA</span>
+                    <span><i class="fas fa-check-circle" style="color:#22c55e;"></i> APK Ready</span>
+                </div>
+            </div>
+
+            <!-- ===== RIGHT: OUTPUT ===== -->
+            <div class="output-panel">
+                <div class="panel-title">
+                    <div class="title-left">
+                        <i class="fas fa-folder"></i> Generated Files
+                        <span id="fileCount" style="font-size:12px;font-weight:400;color:var(--text-muted);">0 files</span>
+                    </div>
+                    <button class="btn-secondary" id="downloadAllBtn" style="padding:4px 14px;font-size:12px;">
+                        <i class="fas fa-download"></i> All
+                    </button>
+                </div>
+                <div class="output-tabs" id="outputTabs">
+                    <button class="tab-btn active" data-tab="files">📁 Files</button>
+                    <button class="tab-btn" data-tab="preview">👁️ Preview</button>
+                </div>
+                <div class="output-content" id="outputContent">
+                    <div class="empty-state" id="emptyState">
+                        <i class="fas fa-folder-open"></i>
+                        <p>Describe your project above and click <strong>Generate Project</strong>.<br />The AI will create all necessary files.</p>
+                    </div>
+                    <div id="filesList" style="display:none;"></div>
+                    <div id="previewArea" style="display:none;height:100%;">
+                        <iframe id="previewFrame" style="width:100%;height:100%;border:none;border-radius:var(--radius-sm);background:#fff;"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p><strong>SAFARI Builder</strong> — Created by <strong>ICEBACK MASTER TECH</strong> &bull; Powered by Safari Technology</p>
+                <p style="font-size:10px;color:var(--text-muted);">📞 +263788377887 &bull; 📧 safaritechcompany@gmail.com</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ===== FLOATING CHAT ===== -->
+    <button class="chat-toggle" id="chatToggle"><i class="fas fa-comment"></i></button>
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <h4><i class="fas fa-robot"></i> Builder Assistant</h4>
+            <span class="close-chat" id="closeChat">&times;</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg assistant">
+                👋 Hello! I'm your Builder Assistant. Describe what you want to build, and I'll help you create it step by step.
+                <div class="msg-time">Just now</div>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Ask for help..." />
+            <button id="chatSendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div id="toastContainer"></div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // ================================================================
+        // SAFARI WEB & APP BUILDER – Complete Script
+        // ================================================================
+
+        console.log('🛠️ SAFARI Builder: Loading...');
+
+        (function() {
+            'use strict';
+
+            // ---- DOM REFS ----
+            const $ = id => document.getElementById(id);
+            const projectDesc = $('projectDescription');
+            const generateBtn = $('generateBtn');
+            const clearBtn = $('clearBtn');
+            const apkBtn = $('apkBtn');
+            const exportBtn = $('exportBtn');
+            const downloadAllBtn = $('downloadAllBtn');
+            const docsBtn = $('docsBtn');
+            const outputContent = $('outputContent');
+            const emptyState = $('emptyState');
+            const filesList = $('filesList');
+            const previewArea = $('previewArea');
+            const previewFrame = $('previewFrame');
+            const fileCount = $('fileCount');
+            const chatToggle = $('chatToggle');
+            const chatPanel = $('chatPanel');
+            const closeChat = $('closeChat');
+            const chatMessages = $('chatMessages');
+            const chatInput = $('chatInput');
+            const chatSendBtn = $('chatSendBtn');
+            const toastContainer = $('toastContainer');
+
+            // ---- STATE ----
+            let generatedFiles = {};
+            let isGenerating = false;
+            let chatHistory = [];
+
+            // ---- TOAST ----
+            function showToast(msg, duration) {
+                duration = duration || 3000;
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = msg;
+                toastContainer.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.3s';
+                }, duration - 500);
+                setTimeout(() => toast.remove(), duration);
+            }
+
+            // ---- PARTICLES ----
+            function initParticles() {
+                const canvas = document.getElementById('particlesCanvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                let w, h, particles = [];
+
+                function resize() {
+                    w = canvas.width = window.innerWidth;
+                    h = canvas.height = window.innerHeight;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                class Particle {
+                    constructor() { this.reset(); }
+                    reset() {
+                        this.x = Math.random() * w;
+                        this.y = Math.random() * h;
+                        this.size = Math.random() * 2 + 0.5;
+                        this.speedX = (Math.random() - 0.5) * 0.3;
+                        this.speedY = (Math.random() - 0.5) * 0.3;
+                        this.opacity = Math.random() * 0.5 + 0.1;
+                    }
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+                        if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+                    }
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(108, 92, 231, ${this.opacity})`;
+                        ctx.fill();
+                    }
+                }
+                for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+                function animate() {
+                    ctx.clearRect(0, 0, w, h);
+                    particles.forEach(p => { p.update();
+                        p.draw(); });
+                    for (let a = 0; a < particles.length; a++) {
+                        for (let b = a + 1; b < particles.length; b++) {
+                            const dx = particles[a].x - particles[b].x;
+                            const dy = particles[a].y - particles[b].y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 150) {
+                                ctx.beginPath();
+                                ctx.moveTo(particles[a].x, particles[a].y);
+                                ctx.lineTo(particles[b].x, particles[b].y);
+                                ctx.strokeStyle = `rgba(108, 92, 231, ${0.05 * (1 - dist / 150)})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                    requestAnimationFrame(animate);
+                }
+                animate();
+            }
+
+            // ---- TAB SWITCHING ----
+            function switchTab(tab) {
+                document.querySelectorAll('.output-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector(`.output-tabs .tab-btn[data-tab="${tab}"]`)?.classList.add('active');
+                if (tab === 'files') {
+                    filesList.style.display = 'block';
+                    previewArea.style.display = 'none';
+                    emptyState.style.display = Object.keys(generatedFiles).length === 0 ? 'flex' : 'none';
+                } else {
+                    filesList.style.display = 'none';
+                    previewArea.style.display = 'block';
+                    emptyState.style.display = 'none';
+                    // Build preview from files
+                    buildPreview();
+                }
+            }
+
+            // ---- BUILD PREVIEW ----
+            function buildPreview() {
+                const html = generatedFiles['index.html'] || generatedFiles['index.htm'] || '';
+                const css = generatedFiles['style.css'] || '';
+                const js = generatedFiles['script.js'] || '';
+
+                if (!html && !css && !js) {
+                    previewFrame.srcdoc = '<h2 style="color:#333;text-align:center;padding:40px;">No preview available</h2>';
+                    return;
+                }
+
+                const doc = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>${css}</style>
+                    </head>
+                    <body>
+                        ${html}
+                        <script>${js}<\/script>
+                    </body>
+                    </html>
+                `;
+                previewFrame.srcdoc = doc;
+            }
+
+            // ---- RENDER FILES ----
+            function renderFiles() {
+                const keys = Object.keys(generatedFiles);
+                fileCount.textContent = keys.length + ' files';
+
+                if (keys.length === 0) {
+                    filesList.innerHTML = '';
+                    emptyState.style.display = 'flex';
+                    filesList.style.display = 'none';
+                    previewArea.style.display = 'none';
+                    return;
+                }
+
+                emptyState.style.display = 'none';
+                filesList.style.display = 'block';
+
+                let html = '';
+                keys.forEach(filename => {
+                    const content = generatedFiles[filename];
+                    const size = new Blob([content]).size;
+                    const sizeStr = size > 1024 ? (size / 1024).toFixed(1) + ' KB' : size + ' B';
+                    html += `
+                        <div class="file-item">
+                            <span class="file-name">📄 ${filename}</span>
+                            <span class="file-size">${sizeStr}</span>
+                            <div class="file-actions">
+                                <button onclick="viewFile('${filename}')"><i class="fas fa-eye"></i> View</button>
+                                <button onclick="downloadFile('${filename}')"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+                filesList.innerHTML = html;
+                // Switch to files tab
+                switchTab('files');
+            }
+
+            // ---- VIEW FILE ----
+            window.viewFile = function(filename) {
+                const content = generatedFiles[filename];
+                if (!content) return;
+                const preview = document.createElement('div');
+                preview.className = 'code-preview';
+                preview.textContent = content;
+                // Show in a modal-like way
+                const existing = document.querySelector('.file-view-modal');
+                if (existing) existing.remove();
+                const modal = document.createElement('div');
+                modal.className = 'file-view-modal';
+                modal.style.cssText = `
+                    position: fixed; inset: 0; z-index: 200;
+                    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+                    display: flex; align-items: center; justify-content: center;
+                    padding: 20px;
+                `;
+                modal.innerHTML = `
+                    <div style="background: var(--bg-card); backdrop-filter: blur(24px);
+                        border: 1px solid var(--border); border-radius: var(--radius-lg);
+                        padding: 24px; max-width: 700px; width: 100%; max-height: 80vh;
+                        position: relative; overflow: hidden; display: flex; flex-direction: column;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4 style="font-size:16px;font-weight:700;color:var(--accent-end);">📄 ${filename}</h4>
+                            <button onclick="this.closest('.file-view-modal').remove()" style="font-size:24px;cursor:pointer;color:var(--text-muted);background:none;border:none;">&times;</button>
+                        </div>
+                        <div style="flex:1;overflow-y:auto;background:rgba(0,0,0,0.3);border-radius:var(--radius-sm);padding:16px;font-family:monospace;font-size:13px;white-space:pre-wrap;word-break:break-all;color:#d4d4d4;max-height:60vh;">
+                            ${escapeHtml(content)}
+                        </div>
+                        <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;">
+                            <button onclick="copyFileContent('${filename}')" class="btn-secondary" style="padding:6px 18px;font-size:13px;">📋 Copy</button>
+                            <button onclick="downloadFile('${filename}')" class="btn-primary" style="padding:6px 18px;font-size:13px;">💾 Download</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                modal.addEventListener('click', function(e) { if (e.target === this) this.remove(); });
+            };
+
+            // ---- COPY FILE ----
+            window.copyFileContent = function(filename) {
+                const content = generatedFiles[filename];
+                if (!content) return;
+                navigator.clipboard.writeText(content).then(() => {
+                    showToast('📋 Copied!');
+                }).catch(() => {
+                    const ta = document.createElement('textarea');
+                    ta.value = content;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    ta.remove();
+                    showToast('📋 Copied!');
+                });
+            };
+
+            // ---- DOWNLOAD FILE ----
+            window.downloadFile = function(filename) {
+                const content = generatedFiles[filename];
+                if (!content) return;
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('📥 Downloaded ' + filename);
+            };
+
+            // ---- ESCAPE HTML ----
+            function escapeHtml(text) {
+                const d = document.createElement('div');
+                d.textContent = text;
+                return d.innerHTML;
+            }
+
+            // ---- GENERATE PROJECT (AI) ----
+            async function generateProject() {
+                const desc = projectDesc.value.trim();
+                if (!desc) {
+                    showToast('⚠️ Please describe your project first.');
+                    return;
+                }
+                if (isGenerating) return;
+                isGenerating = true;
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<span class="spinner"></span> Generating...';
+
+                // Reset files
+                generatedFiles = {};
+                renderFiles();
+
+                try {
+                    // Build a prompt for the AI
+                    const prompt = `Create a complete web project based on this description: "${desc}".
+                    Generate all necessary files (HTML, CSS, JavaScript, and any other needed files).
+                    Return the response as a JSON object where keys are filenames and values are the file contents.
+                    For example: {"index.html": "<!DOCTYPE html>...", "style.css": "...", "script.js": "..."}
+                    Make sure the HTML is complete and functional. Include dark mode if appropriate.
+                    If it's a React project, include package.json and App.js.
+                    Provide clean, well-commented code.`;
+
+                    // Try API
+                    let responseText = '';
+                    try {
+                        const response = await fetchWithTimeout('https://api.hostify.co.zw/api/ai/gemini', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ message: prompt, context: 'You are a professional developer. Generate complete, working code.' })
+                        }, 15000);
+                        if (response.ok) {
+                            const data = await response.json();
+                            responseText = data.response || data.message || data.reply || data.text || '';
+                        }
+                    } catch (e) {
+                        console.warn('API failed, using fallback:', e);
+                    }
+
+                    // Parse the response
+                    let files = {};
+                    if (responseText) {
+                        // Try to extract JSON from the response
+                        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+                        if (jsonMatch) {
+                            try {
+                                files = JSON.parse(jsonMatch[0]);
+                            } catch (e) {
+                                console.warn('Failed to parse JSON, using fallback');
+                            }
+                        }
+                    }
+
+                    // If no files generated, use fallback
+                    if (Object.keys(files).length === 0) {
+                        files = generateFallbackProject(desc);
+                    }
+
+                    // Clean up filenames
+                    const cleanedFiles = {};
+                    for (const [key, value] of Object.entries(files)) {
+                        let filename = key.trim();
+                        if (!filename.includes('.')) {
+                            if (filename.includes('html') || filename.includes('index')) filename = 'index.html';
+                            else if (filename.includes('css') || filename.includes('style')) filename = 'style.css';
+                            else if (filename.includes('js') || filename.includes('script')) filename = 'script.js';
+                            else filename = filename + '.txt';
+                        }
+                        cleanedFiles[filename] = value;
+                    }
+
+                    // Ensure at least index.html exists
+                    if (!cleanedFiles['index.html'] && !cleanedFiles['index.htm']) {
+                        cleanedFiles['index.html'] = generateFallbackHTML(desc);
+                    }
+
+                    generatedFiles = cleanedFiles;
+                    renderFiles();
+                    showToast('✅ Project generated with ' + Object.keys(generatedFiles).length + ' files!');
+
+                } catch (e) {
+                    console.error('Generation error:', e);
+                    // Fallback
+                    generatedFiles = generateFallbackProject(desc);
+                    renderFiles();
+                    showToast('⚠️ Generated with fallback (API unavailable).');
+                }
+
+                isGenerating = false;
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Generate Project';
+            }
+
+            // ---- FALLBACK GENERATOR ----
+            function generateFallbackProject(desc) {
+                const lower = desc.toLowerCase();
+                let files = {};
+
+                // Determine project type
+                const isTodo = lower.includes('todo') || lower.includes('task') || lower.includes('list');
+                const isCalculator = lower.includes('calculator') || lower.includes('calc');
+                const isWeather = lower.includes('weather') || lower.includes('temperature');
+                const isChat = lower.includes('chat') || lower.includes('messenger');
+                const isPortfolio = lower.includes('portfolio') || lower.includes('personal site');
+                const isEcommerce = lower.includes('shop') || lower.includes('store') || lower.includes('ecommerce');
+                const isBlog = lower.includes('blog') || lower.includes('article');
+                const isGame = lower.includes('game') || lower.includes('play');
+
+                // Generate appropriate files
+                if (isTodo) {
+                    files = generateTodoApp();
+                } else if (isCalculator) {
+                    files = generateCalculator();
+                } else if (isWeather) {
+                    files = generateWeatherApp();
+                } else if (isChat) {
+                    files = generateChatApp();
+                } else if (isPortfolio) {
+                    files = generatePortfolio();
+                } else if (isEcommerce) {
+                    files = generateEcommerce();
+                } else if (isBlog) {
+                    files = generateBlog();
+                } else if (isGame) {
+                    files = generateGame();
+                } else {
+                    // Default: generic website
+                    files = generateGenericWebsite(desc);
+                }
+
+                // Add a README
+                files['README.md'] = `# ${desc}\n\nGenerated by SAFARI Web & App Builder\n\n## Files\n${Object.keys(files).map(f => `- ${f}`).join('\n')}\n\n## How to Run\nOpen index.html in your browser.\n\n---\nPowered by ICEBACK MASTER TECH`;
+
+                return files;
+            }
+
+            // ---- SPECIFIC GENERATORS ----
+            function generateTodoApp() {
+                return {
+                    'index.html': `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Todo App</title>
+            <link rel="stylesheet" href="style.css" />
+        </head>
+        <body>
+            <div class="container">
+                <h1>📋 My Tasks</h1>
+                <div class="input-group">
+                    <input type="text" id="taskInput" placeholder="Add a new task..." />
+                    <button id="addBtn">Add</button>
+                </div>
+                <ul id="taskList"></ul>
+                <div class="stats">
+                    <span id="totalTasks">Total: 0</span>
+                    <span id="completedTasks">Completed: 0</span>
+                </div>
+            </div>
+            <script src="script.js"><\/script>
+        </body>
+        </html>`,
+                    'style.css': `* { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: #0b0e1a; color: #e8edf5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: rgba(15,20,40,0.7); backdrop-filter: blur(16px); padding: 32px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); width: 100%; max-width: 500px; box-shadow: 0 8px 32px rgba(0,0,0,0.6); }
+        h1 { font-size: 28px; margin-bottom: 20px; background: linear-gradient(135deg, #6c5ce7, #a29bfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        .input-group input { flex: 1; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); color: #e8edf5; font-size: 14px; outline: none; }
+        .input-group input:focus { border-color: #6c5ce7; box-shadow: 0 0 0 3px rgba(108,92,231,0.3); }
+        .input-group button { padding: 12px 24px; border-radius: 12px; background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: #fff; border: none; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        .input-group button:hover { transform: scale(1.05); }
+        #taskList { list-style: none; margin-bottom: 16px; }
+        #taskList li { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
+        #taskList li:hover { background: rgba(255,255,255,0.06); }
+        #taskList li .task-text { cursor: pointer; flex: 1; }
+        #taskList li .task-text.done { text-decoration: line-through; opacity: 0.5; }
+        #taskList li .delete-btn { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; padding: 0 4px; }
+        #taskList li .delete-btn:hover { color: #ff6b6b; }
+        .stats { display: flex; justify-content: space-between; font-size: 13px; color: #a0b4d9; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }`,
+                    'script.js': `// Simple Todo App
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const taskList = document.getElementById('taskList');
+        const totalTasks = document.getElementById('totalTasks');
+        const completedTasks = document.getElementById('completedTasks');
+
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        function renderTasks() {
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                const span = document.createElement('span');
+                span.className = 'task-text' + (task.done ? ' done' : '');
+                span.textContent = task.text;
+                span.onclick = () => toggleTask(index);
+                const del = document.createElement('button');
+                del.className = 'delete-btn';
+                del.textContent = '✕';
+                del.onclick = () => deleteTask(index);
+                li.appendChild(span);
+                li.appendChild(del);
+                taskList.appendChild(li);
+            });
+            updateStats();
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (!text) return;
+            tasks.push({ text, done: false });
+            taskInput.value = '';
+            renderTasks();
+        }
+
+        function toggleTask(index) {
+            tasks[index].done = !tasks[index].done;
+            renderTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        function updateStats() {
+            totalTasks.textContent = 'Total: ' + tasks.length;
+            completedTasks.textContent = 'Completed: ' + tasks.filter(t => t.done).length;
+        }
+
+        addBtn.addEventListener('click', addTask);
+        taskInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+        renderTasks();`
+                };
+            }
+
+            function generateCalculator() {
+                return {
+                    'index.html': `<!DOCTYPE html>
+        <html lang="en">
+        <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Calculator</title><link rel="stylesheet" href="style.css" /></head>
+        <body>
+            <div class="calc-container">
+                <div class="display" id="display">0</div>
+                <div class="buttons">
+                    <button class="clear" onclick="clearDisplay()">C</button>
+                    <button onclick="append('/')">÷</button>
+                    <button onclick="append('*')">×</button>
+                    <button onclick="append('7')">7</button>
+                    <button onclick="append('8')">8</button>
+                    <button onclick="append('9')">9</button>
+                    <button onclick="append('-')">−</button>
+                    <button onclick="append('4')">4</button>
+                    <button onclick="append('5')">5</button>
+                    <button onclick="append('6')">6</button>
+                    <button onclick="append('+')">+</button>
+                    <button onclick="append('1')">1</button>
+                    <button onclick="append('2')">2</button>
+                    <button onclick="append('3')">3</button>
+                    <button class="equals" onclick="calculate()">=</button>
+                    <button onclick="append('0')">0</button>
+                    <button onclick="append('.')">.</button>
+                </div>
+            </div>
+            <script src="script.js"><\/script>
+        </body>
+        </html>`,
+                    'style.css': `* { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: #0b0e1a; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .calc-container { background: rgba(15,20,40,0.7); backdrop-filter: blur(16px); padding: 24px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); width: 320px; box-shadow: 0 8px 32px rgba(0,0,0,0.6); }
+        .display { background: rgba(0,0,0,0.3); padding: 16px 20px; border-radius: 12px; text-align: right; font-size: 32px; color: #e8edf5; margin-bottom: 16px; min-height: 60px; font-weight: 300; border: 1px solid rgba(255,255,255,0.05); }
+        .buttons { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+        .buttons button { padding: 16px; border-radius: 12px; border: none; font-size: 20px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.04); color: #e8edf5; border: 1px solid rgba(255,255,255,0.05); }
+        .buttons button:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
+        .buttons .clear { background: rgba(239,68,68,0.2); color: #ef4444; }
+        .buttons .clear:hover { background: rgba(239,68,68,0.3); }
+        .buttons .equals { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: #fff; }`,
+                    'script.js': `let display = document.getElementById('display');
+        let current = '0';
+        let prev = '';
+        let operator = null;
+        let reset = false;
+
+        function updateDisplay() { display.textContent = current; }
+
+        function append(value) {
+            if (reset) { current = ''; reset = false; }
+            if (value === '.' && current.includes('.')) return;
+            if (current === '0' && value !== '.') current = value;
+            else current += value;
+            updateDisplay();
+        }
+
+        function clearDisplay() { current = '0'; prev = ''; operator = null; updateDisplay(); }
+
+        function calculate() {
+            if (!operator) return;
+            const num = parseFloat(current);
+            const prevNum = parseFloat(prev);
+            let result;
+            switch (operator) {
+                case '+': result = prevNum + num; break;
+                case '-': result = prevNum - num; break;
+                case '*': result = prevNum * num; break;
+                case '/': result = prevNum / num; break;
+                default: return;
+            }
+            current = String(result);
+            prev = '';
+            operator = null;
+            reset = true;
+            updateDisplay();
+        }
+
+        document.querySelectorAll('.buttons button:not(.equals):not(.clear)').forEach(btn => {
+            btn.onclick = function() {
+                const val = this.textContent;
+                if (['+','-','*','/'].includes(val)) {
+                    if (operator) calculate();
+                    prev = current;
+                    operator = val;
+                    reset = true;
+                } else {
+                    append(val);
+                }
+            };
+        });`
+                };
+            }
+
+            function generateGenericWebsite(desc) {
+                return {
+                    'index.html': `<!DOCTYPE html>
+        <html lang="en">
+        <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>${desc.slice(0,30)}</title><link rel="stylesheet" href="style.css" /></head>
+        <body>
+            <header><h1>🛠️ ${desc}</h1></header>
+            <main>
+                <section class="hero"><h2>Welcome</h2><p>${desc}</p><button onclick="alert('Hello!')">Click Me</button></section>
+            </main>
+            <footer><p>Generated by SAFARI Builder &bull; ICEBACK MASTER TECH</p></footer>
+            <script src="script.js"><\/script>
+        </body>
+        </html>`,
+                    'style.css': `* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
+        body { background:#0b0e1a; color:#e8edf5; min-height:100vh; display:flex; flex-direction:column; }
+        header { background:rgba(15,20,40,0.7); backdrop-filter:blur(16px); padding:20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+        header h1 { background:linear-gradient(135deg,#6c5ce7,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        main { flex:1; padding:40px 20px; max-width:800px; margin:0 auto; width:100%; }
+        .hero { text-align:center; padding:40px 0; }
+        .hero h2 { font-size:36px; margin-bottom:16px; }
+        .hero p { color:#a0b4d9; font-size:18px; max-width:500px; margin:0 auto 24px; }
+        .hero button { padding:12px 32px; border-radius:50px; background:linear-gradient(135deg,#6c5ce7,#a29bfe); color:#fff; border:none; font-weight:600; font-size:16px; cursor:pointer; transition:transform 0.2s; }
+        .hero button:hover { transform:scale(1.05); }
+        footer { text-align:center; padding:16px; color:#6a7fa0; font-size:13px; border-top:1px solid rgba(255,255,255,0.05); }`,
+                    'script.js': `console.log('SAFARI Builder project loaded!');`
+                };
+            }
+
+            // ---- CHAT ----
+            function toggleChat() {
+                chatPanel.classList.toggle('open');
+            }
+
+            async function sendChatMessage() {
+                const text = chatInput.value.trim();
+                if (!text) return;
+                chatInput.value = '';
+
+                // Add user message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'msg user';
+                userMsg.innerHTML = text + `<div class="msg-time">Just now</div>`;
+                chatMessages.appendChild(userMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Show typing
+                const typing = document.createElement('div');
+                typing.className = 'msg assistant';
+                typing.innerHTML = `<span class="spinner"></span> Thinking...`;
+                chatMessages.appendChild(typing);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                try {
+                    const context =
+                        'You are a helpful assistant that helps users build websites and applications. Give clear, practical advice.';
+                    const response = await fetch('https://api.hostify.co.zw/api/ai/gemini', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: text, context: context })
+                    });
+                    let reply = '';
+                    if (response.ok) {
+                        const data = await response.json();
+                        reply = data.response || data.message || data.reply || data.text || '';
+                    }
+                    if (!reply) {
+                        reply =
+                            `🤔 I'm here to help you build! Tell me what you want to create, and I'll guide you through the process. Try describing a project in the main panel above.`;
+                    }
+                    // Remove typing
+                    chatMessages.removeChild(typing);
+                    const assistantMsg = document.createElement('div');
+                    assistantMsg.className = 'msg assistant';
+                    assistantMsg.innerHTML = reply + `<div class="msg-time">Just now</div>`;
+                    chatMessages.appendChild(assistantMsg);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } catch (e) {
+                    chatMessages.removeChild(typing);
+                    const errMsg = document.createElement('div');
+                    errMsg.className = 'msg assistant';
+                    errMsg.innerHTML =
+                        '⚠️ Sorry, I encountered an error. Please try again.' + `<div class="msg-time">Just now</div>`;
+                    chatMessages.appendChild(errMsg);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }
+
+            // ---- EXPORT ALL ----
+            function exportAll() {
+                const keys = Object.keys(generatedFiles);
+                if (keys.length === 0) {
+                    showToast('⚠️ No files to export. Generate a project first.');
+                    return;
+                }
+                // Create a zip-like download (just download each file individually for simplicity)
+                let html = `<!DOCTYPE html><html><head><title>Generated Project</title></head><body>`;
+                html += `<h1>Generated Files</h1><ul>`;
+                keys.forEach(f => {
+                    html += `<li><a href="#" onclick="downloadFile('${f}')">${f}</a></li>`;
+                });
+                html += `</ul></body></html>`;
+                // Actually, let's just show a message
+                showToast('📦 Click "All" button to download each file individually, or use the "View" button on each file.');
+                // Alternative: download a JSON summary
+                const json = JSON.stringify(generatedFiles, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'project_files.json';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('📦 Exported as project_files.json');
+            }
+
+            // ---- FETCH WITH TIMEOUT ----
+            function fetchWithTimeout(url, options, timeout) {
+                const controller = new AbortController();
+                const id = setTimeout(() => controller.abort(), timeout);
+                return fetch(url, { ...options, signal: controller.signal })
+                    .then(res => { clearTimeout(id); return res; })
+                    .catch(err => { clearTimeout(id); throw err; });
+            }
+
+            // ---- APK GUIDE ----
+            function showAPKGuide() {
+                const guide = `
+        📱 <strong>How to Convert Your Website to an APK</strong>
+        <br><br>
+        <strong>Option 1: PWA2APK (Easiest)</strong>
+        <br>1. Make your site a PWA (add manifest.json and service worker)
+        <br>2. Go to pwa2apk.com
+        <br>3. Enter your site URL and generate APK
+        <br><br>
+        <strong>Option 2: Capacitor (Professional)</strong>
+        <br>1. npm install @capacitor/core @capacitor/android
+        <br>2. npx cap init
+        <br>3. npx cap add android
+        <br>4. Copy your files to the www folder
+        <br>5. npx cap sync
+        <br>6. npx cap open android
+        <br><br>
+        <strong>Option 3: WebView (Manual)</strong>
+        <br>1. Create Android project in Android Studio
+        <br>2. Add a WebView component
+        <br>3. Load your site in the WebView
+        <br>4. Build the APK
+        <br><br>
+        <strong>Need help?</strong> Describe your project in the chat and I'll guide you!
+        `;
+                // Show in a modal
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed; inset: 0; z-index: 200;
+                    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+                    display: flex; align-items: center; justify-content: center;
+                    padding: 20px;
+                `;
+                modal.innerHTML = `
+                    <div style="background: var(--bg-card); backdrop-filter: blur(24px);
+                        border: 1px solid var(--border); border-radius: var(--radius-lg);
+                        padding: 28px 24px; max-width: 500px; width: 100%; max-height: 80vh;
+                        overflow-y: auto; position: relative;">
+                        <button onclick="this.closest('div[style]').parentElement.remove()" style="position:absolute;top:12px;right:16px;font-size:28px;cursor:pointer;color:var(--text-muted);background:none;border:none;">&times;</button>
+                        <div style="font-size:14px;line-height:1.8;color:var(--text);">${guide}</div>
+                        <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;">
+                            <button onclick="this.closest('div[style]').parentElement.remove()" class="btn-primary" style="padding:8px 24px;font-size:14px;">Got it</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                modal.addEventListener('click', function(e) { if (e.target === this) this.remove(); });
+                showToast('📱 APK guide opened');
+            }
+
+            // ---- INIT ----
+            function init() {
+                console.log('🛠️ SAFARI Builder: Initializing...');
+                initParticles();
+
+                // ---- GENERATE ----
+                generateBtn.addEventListener('click', generateProject);
+
+                // ---- CLEAR ----
+                clearBtn.addEventListener('click', function() {
+                    projectDesc.value = '';
+                    generatedFiles = {};
+                    renderFiles();
+                    showToast('🗑️ Cleared');
+                });
+
+                // ---- APK GUIDE ----
+                apkBtn.addEventListener('click', showAPKGuide);
+
+                // ---- EXPORT ----
+                exportBtn.addEventListener('click', exportAll);
+                downloadAllBtn.addEventListener('click', exportAll);
+
+                // ---- DOCS ----
+                docsBtn.addEventListener('click', function() {
+                    showToast('📖 Documentation: Describe a project, click Generate, then view and download files.');
+                });
+
+                // ---- TAB SWITCHING ----
+                document.querySelectorAll('.output-tabs .tab-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        switchTab(this.dataset.tab);
+                    });
+                });
+
+                // ---- CHAT ----
+                chatToggle.addEventListener('click', toggleChat);
+                closeChat.addEventListener('click', toggleChat);
+                chatSendBtn.addEventListener('click', sendChatMessage);
+                chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendChatMessage(); });
+
+                // ---- RENDER INITIAL ----
+                renderFiles();
+
+                // ---- SAMPLE DESCRIPTION ----
+                projectDesc.value = 'Create a modern todo list app with HTML, CSS, and JavaScript. Include add, delete, and mark complete features. Use a dark theme with a purple gradient.';
+
+                console.log('🛠️ SAFARI Builder: Ready!');
+            }
+
+            // ---- START ----
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+            // ---- EXPOSE GLOBALLY ----
+            window.downloadFile = downloadFile;
+            window.viewFile = viewFile;
+            window.copyFileContent = copyFileContent;
+
+        })();
+    </script>
+</body>
+                  </html>
